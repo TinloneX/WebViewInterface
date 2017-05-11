@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>htllo test</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="../css/main.css"/>
+
+</head>
+<body>
+<div class="time fr green" id="timetab" style="margin-right:10px;">
+    <a href="javascript:;" style="margin-right:10px;" onclick="change('一')">一</a>
+    <a href="javascript:;" onclick="change('二')" style="margin-right:10px;">二</a>
+    <a href="http://www.baidu.com" style="margin-right:10px;">三</a>
+    <a href="abc:hello" style="margin-right:10px;">四</a>
+</div>
+<script type="text/javascript">
+			var tips = '';
+		    function change(type) {
+               console.log("From Web click--提示同时传出去弹吐司--"+type);
+               alert("test_alert");
+               showHtmlcallJava();
+		        window.Interface.sendInfoToAndroid(type);
+		    }
+
+		     function click_button(){
+		     		var	but = window.Interface.getDataFromAndroid();
+                  console.log("From Android click -----" + but);
+		           alert("click_button--"+but);
+		     }
+
+		     function showHtmlcallJava(){
+		        //                message、defaultValue参数
+                var ret = prompt( "1024", "name" );
+                //ret值即为java传回的”result”
+                //根据返回内容作相应处理
+                alert(ret);
+            }
+
+
+
+</script>
+</body>
+</html>

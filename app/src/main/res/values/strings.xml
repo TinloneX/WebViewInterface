@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WebInterface</string>
+    <string name="key_to_web">Interface</string>
+    <string name="button">button</string>
+    <string name="hello">hello</string>
+    <string name="world">world</string>
+</resources>
