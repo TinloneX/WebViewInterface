@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mWebView.post(new Runnable() {
             @Override
             public void run() {
-                mWebView.loadUrl("javascript:click_button()");
+//                mWebView.loadUrl("javascript:click_button()");
+                mWebView.loadUrl("javascript:click_button2('" + tag + "')");
             }
         });
 
