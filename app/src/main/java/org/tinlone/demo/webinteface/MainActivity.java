@@ -14,15 +14,15 @@ import android.webkit.JavascriptInterface;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
-import tbsplus.tbs.tencent.com.tbsplus.TbsPlus;
+
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import static org.tinlone.demo.webinteface.R.id.webview;
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static String message = "Default Message !";
 
-    private WebView mWebView;
+    private X5WebView mWebView;
 
     private Button hello;
     private Button world;
@@ -64,14 +64,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        mWebView = (WebView) findViewById(webview);
+        mWebView = (X5WebView) findViewById(webview);
         hello = (Button) findViewById(R.id.hello);
         world = (Button) findViewById(R.id.world);
         button = (Button) findViewById(R.id.button);
     }
 
     private void initSetting() {
-        WebSettings settings = mWebView.getSettings();
+        com.tencent.smtt.sdk.WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new JsInterface(), keyToWeb);
         mWebView.loadUrl(htmlURL);
@@ -109,85 +109,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         if (getString(R.string.button).equals(tag)) {
-//            startActivity(new Intent(MainActivity.this, TwoActivity.class));
-            TbsPlus.openUrl(this,"https://www.baidu.com");
+            startActivity(new Intent(MainActivity.this, TwoActivity.class));
         }
     }
 
     private class MyWebClient extends WebChromeClient {
-
         @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            super.onProgressChanged(view, newProgress);
+        public void onProgressChanged(com.tencent.smtt.sdk.WebView webView, int i) {
+            super.onProgressChanged(webView, i);
         }
 
         @Override
-        public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-            Log.i("TAG", "onJsPrompt: message = " + message);
-//            return false;
-//            result.confirm("OK");
-//            return true;
-            return super.onJsPrompt(view, url, message, defaultValue, result);
+        public boolean onJsPrompt(com.tencent.smtt.sdk.WebView webView, String s, String s1, String s2, com.tencent.smtt.export.external.interfaces.JsPromptResult jsPromptResult) {
+            Log.i("TAG", "onJsPrompt: message = " + s1);
+            return super.onJsPrompt(webView, s, s1, s2, jsPromptResult);
         }
 
         @Override
-        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-            Log.i("TAG", "onJsAlert: message = " + message);
-//            return true;
-            return super.onJsAlert(view, url, message, result);
+        public boolean onJsAlert(com.tencent.smtt.sdk.WebView webView, String s, String s1, com.tencent.smtt.export.external.interfaces.JsResult jsResult) {
+            Log.i("TAG", "onJsAlert: message = " + s1);
+            return super.onJsAlert(webView, s, s1, jsResult);
         }
 
         @Override
-        public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
-            Log.i("TAG", "onJsConfirm: message = " + message);
-            return super.onJsConfirm(view, url, message, result);
+        public boolean onJsConfirm(com.tencent.smtt.sdk.WebView webView, String s, String s1, com.tencent.smtt.export.external.interfaces.JsResult jsResult) {
+            Log.i("TAG", "onJsConfirm: message = " + s1);
+            return super.onJsConfirm(webView, s, s1, jsResult);
         }
 
     }
 
     private class MyWebViewClient extends WebViewClient {
+
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        public boolean shouldOverrideUrlLoading(com.tencent.smtt.sdk.WebView webView, String url) {
             Log.i("TAG", "shouldOverrideUrlLoading----1: " + url);
             if (url.startsWith("abc:")) {
                 Toast.makeText(MainActivity.this, "" + url, Toast.LENGTH_SHORT).show();
                 return true;
             }
             if ((url.toLowerCase().startsWith("http://")) || (url.toLowerCase().startsWith("https://"))) {
-                view.loadUrl(url);
+                webView.loadUrl(url);
                 return true;
             }
             return true;
         }
 
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-/*
+        public boolean shouldOverrideUrlLoading(com.tencent.smtt.sdk.WebView webView, com.tencent.smtt.export.external.interfaces.WebResourceRequest request) {
+           /*
 直接用有个坑，targetApi --- LOLLIPOP
 view.loadUrl(request.getUrl().toString());
 return true ;会拦截shouldOverrideUrlLoading(WebView, String)方法，但此方法内部实际还是调用的shouldOverrideUrlLoading(WebView, String)
 */
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Log.i("TAG", "shouldOverrideUrlLoading----2: " + request.getUrl().toString());
-                view.loadUrl(request.getUrl().toString());
+                webView.loadUrl(request.getUrl().toString());
                 return true;
             } else {
                 Log.i("TAG", "shouldOverrideUrlLoading----2: " + request.toString());
                 return false;
             }
-//            return super.shouldOverrideUrlLoading(view, request);
-        }
-
-        @Override
-        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            handler.proceed();
-            super.onReceivedSslError(view, handler, error);
-        }
-
-        @Override
-        public void onLoadResource(WebView view, String url) {
-            super.onLoadResource(view, url);
-
         }
     }
 
