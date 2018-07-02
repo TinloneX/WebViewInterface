@@ -22,6 +22,8 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
+import tbsplus.tbs.tencent.com.tbsplus.TbsPlus;
+
 import static org.tinlone.demo.webinteface.R.id.webview;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String keyToWeb = "Interface";
     @Keep
     private final String htmlURL = "file:///android_asset/html/test.html";
+//    private final String htmlURL = "http://192.168.1.11:3004/mobile/NewActive";
 
     private static String message = "Default Message !";
 
@@ -106,7 +109,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         if (getString(R.string.button).equals(tag)) {
-            startActivity(new Intent(MainActivity.this, TwoActivity.class));
+//            startActivity(new Intent(MainActivity.this, TwoActivity.class));
+            TbsPlus.openUrl(this,"https://www.baidu.com");
         }
     }
 
@@ -135,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
+            Log.i("TAG", "onJsConfirm: message = " + message);
             return super.onJsConfirm(view, url, message, result);
         }
 
@@ -157,9 +162,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            //直接用有个坑，targetApi --- LOLLIPOP
-//          view.loadUrl(request.getUrl().toString());
-            // return true ;会拦截shouldOverrideUrlLoading(WebView, String)方法，但此方法内部实际还是调用的shouldOverrideUrlLoading(WebView, String)
+/*
+直接用有个坑，targetApi --- LOLLIPOP
+view.loadUrl(request.getUrl().toString());
+return true ;会拦截shouldOverrideUrlLoading(WebView, String)方法，但此方法内部实际还是调用的shouldOverrideUrlLoading(WebView, String)
+*/
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Log.i("TAG", "shouldOverrideUrlLoading----2: " + request.getUrl().toString());
                 view.loadUrl(request.getUrl().toString());
@@ -176,6 +183,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             handler.proceed();
             super.onReceivedSslError(view, handler, error);
         }
+
+        @Override
+        public void onLoadResource(WebView view, String url) {
+            super.onLoadResource(view, url);
+
+        }
     }
 
     @Override
@@ -189,7 +202,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        if (mWebView.canGoBack()) mWebView.goBack();
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        }
         super.onBackPressed();
     }
 }

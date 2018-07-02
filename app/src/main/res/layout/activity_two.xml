@@ -7,4 +7,10 @@
     android:layout_height="match_parent"
     tools:context="org.tinlone.demo.webinteface.TwoActivity">
 
+    <com.tencent.smtt.sdk.WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.tencent.smtt.sdk.WebView>
+
 </android.support.constraint.ConstraintLayout>

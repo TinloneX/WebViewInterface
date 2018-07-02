@@ -1,8 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'jinyoujf'
+            keyPassword 'jinyoujf'
+            storeFile file('D:/Files/project/jinyoujf/jinyoujf.jks')
+            storePassword 'jinyoujf'
+        }
+    }
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "org.tinlone.demo.webinteface"
         minSdkVersion 19
@@ -10,21 +18,37 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [APP_NAME: 'WebView原生与JS交互'] // 配置主包的应用名称
     }
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        mjb1.initWith(buildTypes.release)
+        mjb1 {
+            minifyEnabled false
+            // 修改马甲包的applicationId，马甲包的application将为com.liunian.majiabaotest.mjb1，
+            // 即在原来的applicationId后加上配置内容
+            applicationIdSuffix ".mjb1"
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [APP_NAME: '马甲包1号'] // 配置主包的应用名称
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:25.4.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    implementation files('libs/tbs_x5_webview.jar')
+
 }
+
+

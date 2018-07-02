@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">马甲包1</string>
+    <string name="key_to_web">Interface</string>
+    <string name="button">按键</string>
+    <string name="hello">你好</string>
+    <string name="world">世界</string>
+</resources>
