@@ -10,7 +10,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        initX5WebView();
+        InitializeService.start(this);
     }
 
     private void initX5WebView() {

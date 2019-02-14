@@ -5,12 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.tinlone.demo.webinteface.TwoActivity">
+    tools:context="org.tinlone.demo.webinteface.activities.X5WebActivity">
 
     <org.tinlone.demo.webinteface.X5WebView
         android:id="@+id/x5_web"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     </org.tinlone.demo.webinteface.X5WebView>
 
