@@ -19,6 +19,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
+        <activity android:name=".activities.JsBridgeActivity"></activity>
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait">
